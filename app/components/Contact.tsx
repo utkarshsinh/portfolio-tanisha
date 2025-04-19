@@ -46,7 +46,7 @@ const Contact = () => {
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
       
-      const response = await fetch('/', {
+      const response = await fetch('/__forms.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData as any).toString(),
@@ -55,6 +55,8 @@ const Contact = () => {
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
+        // Optional: Redirect to success page
+        window.location.href = '/success';
       } else {
         throw new Error('Form submission failed');
       }
@@ -94,20 +96,12 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <form 
-              onSubmit={handleSubmit} 
+              onSubmit={handleSubmit}
               className="space-y-6"
               name="contact"
               method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              action="/success"
             >
               <input type="hidden" name="form-name" value="contact" />
-              <p className="hidden">
-                <label>
-                  Don't fill this out if you're human: <input name="bot-field" />
-                </label>
-              </p>
 
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
